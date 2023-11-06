@@ -19,12 +19,12 @@ const InvoiceListItemAddition = () => {
 
     const isNumberPositive = (rule, value, callback) => {
         if (value < 0) {
-            callback("Value can't be negative");
+            callback("Value can't be negative")
         }
         else {
-            callback();
+            callback()
         }
-    };
+    }
 
     const submitEditableForm = () => {
         dispatch(setEditableField(null))

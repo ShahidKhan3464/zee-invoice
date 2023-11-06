@@ -22,11 +22,13 @@ const paletteColors = [
 
 const initialState = {
     invoiceData: {
+        no: null,
         date: "",
         type: "",
         items: [],
         logo: null,
         dueDate: "",
+        currency: 'USD',
         additionalNote: "",
         senderDetail: null,
         receiverDetail: null,
@@ -42,6 +44,9 @@ export const createInvoiceSlice = createSlice({
     name: "createInvoice",
     initialState,
     reducers: {
+        setInvoiceNo: (state, action) => {
+            state.invoiceData.no = action.payload;
+        },
         setLogo: (state, action) => {
             state.invoiceData.logo = action.payload;
         },
@@ -76,10 +81,12 @@ export const createInvoiceSlice = createSlice({
         setAdditionalNote: (state, action) => {
             state.invoiceData.additionalNote = action.payload;
         },
+        setCurrency: (state, action) => {
+            state.invoiceData.currency = action.payload;
+        },
         setPaletteColors: (state, action) => {
-            const newColors = action.payload;
-            console.log(newColors)
-            state.paletteColors = newColors;
+            const newPaletteColors = action.payload;
+            state.paletteColors = newPaletteColors;
         },
         setDefaultColor: (state, action) => {
             const selectedColor = action.payload;
@@ -97,6 +104,6 @@ export const createInvoiceSlice = createSlice({
     },
 });
 
-export const { setLogo, setType, setSenderDetail, setReceiverDetail, setDate, setDueDate, setAddItem, setUpdateItem, setRemoveItem, setAdditionalNote, setPaletteColors, setDefaultColor, setInvoiceTax, setInvoiceDueDate, setEditableField } = createInvoiceSlice.actions;
+export const { setInvoiceNo, setLogo, setType, setSenderDetail, setReceiverDetail, setDate, setDueDate, setAddItem, setUpdateItem, setRemoveItem, setAdditionalNote, setCurrency, setPaletteColors, setDefaultColor, setInvoiceTax, setInvoiceDueDate, setEditableField } = createInvoiceSlice.actions;
 
 export default createInvoiceSlice.reducer;

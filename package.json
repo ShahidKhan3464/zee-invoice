@@ -25,7 +25,6 @@
     "formik": "^2.4.5",
     "next": "14.0.0",
     "react": "18.2.0",
-    "react-color": "^2.19.3",
     "react-dom": "18.2.0",
     "react-flags-select": "^2.2.3",
     "react-phone-input-2": "^2.15.1",

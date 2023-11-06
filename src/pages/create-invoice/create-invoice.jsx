@@ -3,8 +3,9 @@
 import Image from 'next/image';
 import { Container } from "@mui/material";
 import { Palette } from "color-thief-react";
-import React, { useState, useRef } from "react";
+import InvoiceSetting from './invoice-setting';
 import Footer from "@/common/components/footer";
+import React, { useState, useMemo, useEffect } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Colors from "@/common/constants/color.constant";
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,14 +13,29 @@ import InvoiceBuilderForm from "./invoice-builder-form";
 import PDFDocument from '@/common/components/pdf-template';
 import CustomButton from "@/common/components/custom-button";
 import InvoiceNavbar from "@/common/components/valid-user-navbar";
-import { StyledCreateInvoice, StyledInvoiceBuilderHeader } from "./style";
-import { setPaletteColors } from '@/provider/features/create-invoice/create-invoice.slice';
+import { StyledCreateInvoice, StyledInvoiceBuilderForm, StyledInvoiceBuilderHeader } from "./style";
+import { setInvoiceNo, setPaletteColors } from '@/provider/features/create-invoice/create-invoice.slice';
 
 const CreateInvoice = () => {
     const dispatch = useDispatch()
-    const [invoicetitle, setInvoicetitle] = useState("001")
-    const { invoiceData } = useSelector(state => state.createInvoice)
-    const { logo } = invoiceData
+    const [colors, setColors] = useState(null)
+    const { invoiceData, defaultColor } = useSelector(state => state.createInvoice)
+    const { no, logo, type, date, senderDetail, receiverDetail, items, additionalNote } = invoiceData
+    const isPdfRendered = type && date && senderDetail && receiverDetail && additionalNote && items.length > 0
+
+    // const MemoizedInvoiceBuilderForm = useMemo(() => {
+    //     return <InvoiceBuilderForm invoicetitle={invoicetitle} />
+
+    // }, [invoicetitle])
+
+    useEffect(() => {
+        const randomNumber = Math.floor(10000 + Math.random() * 90000)
+        dispatch(setInvoiceNo(randomNumber))
+    }, [dispatch])
+
+    useEffect(() => {
+        colors && dispatch(setPaletteColors(colors))
+    }, [colors, dispatch])
 
     return (
         <React.Fragment>
@@ -29,23 +45,10 @@ const CreateInvoice = () => {
                     <StyledInvoiceBuilderHeader>
                         <div className='invoiceBuilderTitle'>
                             <div className='invoiceBuilderTitle_web'>
-                                <div className='invoiceBuilderTitle_web_input'>
-                                    <label htmlFor="invoiceNo">Invoice:</label>
-                                    <input
-                                        type="number"
-                                        id='invoiceNo'
-                                        value={invoicetitle}
-                                        onChange={(e) => setInvoicetitle(e.target.value)}
-                                    />
+                                <div className='invoiceBuilderTitle_web_invoiceNo'>
+                                    <p>Invoice:</p>
+                                    <span>{no}</span>
                                 </div>
-                                {/* <div className='invoiceBuilderTitle_web_icon'>
-                                    <Image
-                                        width={20}
-                                        height={20}
-                                        alt='editIcon'
-                                        src='/images/editIcon.svg'
-                                    />
-                                </div> */}
                             </div>
                             <div className='invoiceBuilderTitle_mobile'>
                                 <Image
@@ -55,11 +58,6 @@ const CreateInvoice = () => {
                                     src='/images/settingIcon.svg'
                                     onClick={() => setSettingDrawer(true)}
                                 />
-                                {/* <SettingDrawer
-                            settingDrawer={settingDrawer}
-                            setSettingDrawer={setSettingDrawer}>
-                            <InvoiceSetting defaultColors={defaultColors} />
-                        </SettingDrawer> */}
                             </div>
                         </div>
 
@@ -78,7 +76,8 @@ const CreateInvoice = () => {
                                 fileName="invoice.pdf"
                                 document={
                                     <PDFDocument
-                                        invoiceData={[]}
+                                        invoiceData={invoiceData}
+                                        defaultColor={defaultColor}
                                     />
                                 }
                             >
@@ -87,8 +86,8 @@ const CreateInvoice = () => {
                                         <CustomButton
                                             fs='16px'
                                             width="100%"
-                                            color='#FFFFFF'
                                             pd={"10px 24px"}
+                                            color='#FFFFFF'
                                             bg={Colors.primary}
                                             title='Download PDF'
                                         />
@@ -97,7 +96,14 @@ const CreateInvoice = () => {
                             </PDFDownloadLink>
                         </div>
                     </StyledInvoiceBuilderHeader>
-                    <InvoiceBuilderForm />
+
+                    <StyledInvoiceBuilderForm
+                        invoicebuildercolor={defaultColor}
+                    >
+                        <InvoiceBuilderForm />
+                        {/* {MemoizedInvoiceBuilderForm} */}
+                        <InvoiceSetting />
+                    </StyledInvoiceBuilderForm>
                 </Container>
 
                 <Palette
@@ -110,8 +116,8 @@ const CreateInvoice = () => {
                         loading
                             ? null
                             : data?.length
-                        // ? dispatch(setPaletteColors(data))
-                        // : null
+                                ? setColors(data)
+                                : null
                     }
                 </Palette>
                 {/* <SaveInfoModal openModal={saveInfoModal} closeModal={setSaveInfoModal} /> */}

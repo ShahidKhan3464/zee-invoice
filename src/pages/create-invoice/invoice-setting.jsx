@@ -3,27 +3,35 @@
 import React from 'react';
 import Image from 'next/image';
 import { Icons } from '@/common/assets';
-import { ChromePicker } from 'react-color';
-import { Collapse, Select, Switch } from 'antd';
+import { Select, Switch, ColorPicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyledInvoiceSetting, StyledColorCheckbox } from './style';
-import { setDefaultColor, setInvoiceDueDate, setInvoiceTax } from '@/provider/features/create-invoice/create-invoice.slice';
-const { Panel } = Collapse;
+import { setCurrency, setDefaultColor, setInvoiceDueDate, setInvoiceTax } from '@/provider/features/create-invoice/create-invoice.slice';
 
 const InvoiceSetting = () => {
     const dispatch = useDispatch()
     const { isInvoiceTax, defaultColor, paletteColors } = useSelector(state => state.createInvoice)
 
-    const customColorPanelHeader = () => {
+    const customTriggerContent = () => {
         return (
             <div className='builder_setting_colorPicker_panelHeader'>
-                <Image
-                    width={24}
-                    height={24}
-                    alt='circleColors'
-                    src={Icons.circleColors}
-                />
-                <p>Custom Color</p>
+                <div className='left'>
+                    <Image
+                        width={24}
+                        height={24}
+                        alt='circleColors'
+                        src={Icons.circleColors}
+                    />
+                    <p>Custom Color</p>
+                </div>
+                <div className='right'>
+                    <Image
+                        width={15}
+                        height={15}
+                        alt='downArrow'
+                        src={Icons.downArrow}
+                    />
+                </div>
             </div>
         )
     }
@@ -62,31 +70,21 @@ const InvoiceSetting = () => {
                     </div>
                 </div>
                 <div className='builder_setting_colorPicker'>
-                    <Collapse
-                        expandIconPosition='end'
-                        defaultActiveKey={['0']}
-                        expandIcon={() => (
-                            <Image
-                                width={15}
-                                height={15}
-                                alt='downArrow'
-                                src={Icons.downArrow}
-                            />
-                        )}
+                    <ColorPicker
+                        arrow={false}
+                        value={defaultColor}
+                        getPopupContainer={(trigger) => trigger.parentNode}
+                        onChangeComplete={(color) => dispatch(setDefaultColor(`#${color.toHex()}`))}
                     >
-                        <Panel header={customColorPanelHeader()} key="1">
-                            <ChromePicker
-                                color={defaultColor}
-                                onChangeComplete={async (e) => await dispatch(setDefaultColor(e.hex))}
-                            />
-                        </Panel>
-                    </Collapse>
+                        {customTriggerContent()}
+                    </ColorPicker>
                 </div>
                 <div className='builder_setting_currency'>
                     <p>Currency</p>
                     <Select
                         defaultValue="$ USD"
                         style={{ width: 120 }}
+                        onChange={(value) => dispatch(setCurrency(value))}
                         suffixIcon={
                             <Image
                                 width={15}

@@ -21,61 +21,19 @@ export const StyledInvoiceBuilderHeader = styled.div`
   }
 
   .invoiceBuilderTitle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
     &_web {
-      gap: 10px;
-      display: flex;
-      align-items: center;
-
-      &_input {
+      &_invoiceNo {
         gap: 10px;
         display: flex;
+        align-items: center;
 
-        label {
+        p, span {
           font-size: 24px;
           font-weight: 500;
           line-height: 32px;
           font-family: Inter;
           font-style: normal;
           color: ${Colors.secondary};  
-        }
-
-        input {
-          width: 50px;
-          border: none;
-          outline: none;
-          font-size: 24px;
-          font-weight: 500;
-          max-width: 140px;
-          line-height: 32px;
-          font-style: normal;
-          font-family: Inter;
-          background: transparent;
-          color: ${Colors.secondary};
-        }
-
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-        }
-      }
-
-      &_readOnly {
-        gap: 20px;
-        display: flex;
-        align-items: center;
-
-        p {
-          margin: 0;
-          color: #333333;
-          font-size: 24px;
-          font-weight: 500;
-          line-height: 32px;
-          font-style: normal;
-          font-family: Inter;
         }
       }
     }
@@ -733,30 +691,28 @@ export const StyledInvoiceSetting = styled.div`
     &_colorPicker {
       margin-top: 12px;
 
-      .ant-collapse {
-        border-radius: 4px;
-        background-color: #FFFFFF;
-        border: 1px solid #d0d5dd;
-      }
-
-      .ant-collapse-content-box {
-        padding: 0;
-      }
-
-      .chrome-picker {
-        margin-top: 10px;
-        width: 100% !important;
-        box-shadow: none !important;
-        font-family: inherit !important;
-      }
-
       &_panelHeader {
         gap: 10px;
         display: flex;
+        cursor: pointer;
+        border-radius: 4px;
+        padding: 12px 16px;
         align-items: center;
+        background-color: #FFFFFF;
+        border: 1px solid #d0d5dd;
+        justify-content: space-between;
+
+        .left {
+          gap: 10px;
+          display: flex;
+          align-items: center;
+        }
+
+        .right {
+          height: 15px;
+        }
 
         p {
-          margin: 0;
           color: #444444;
           font-size: 14px;
           font-weight: 400;

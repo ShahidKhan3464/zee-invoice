@@ -3,9 +3,7 @@
 import Image from 'next/image';
 import CountryData from "country-data";
 import { Icons } from '@/common/assets';
-import InvoiceSetting from './invoice-setting';
-import React, { useRef, useState } from 'react';
-import { StyledInvoiceBuilderForm } from "./style";
+import React, { useRef, memo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Input, InputNumber, DatePicker } from "antd";
 import InvoiceListItemAddition from './invoice-listItem-addition';
@@ -18,8 +16,9 @@ const InvoiceBuilderForm = () => {
     const fileInputRef = useRef(null)
     const [specificUser, setSpecificUser] = useState("")
     const [generateInvoiceModal, setGenerateInvoiceModal] = useState(false)
-    const { invoiceData, editableField, isInvoiceTax, isInvoiceDueDate, defaultColor } = useSelector(state => state.createInvoice)
-    const { logo, senderDetail, receiverDetail, items, additionalNote } = invoiceData
+    const { invoiceData, editableField, isInvoiceTax, isInvoiceDueDate } = useSelector(state => state.createInvoice)
+    const { logo, senderDetail, receiverDetail, items, additionalNote, currency } = invoiceData
+    // console.log('builder')
 
     const SenderInputBox = () => {
         return (
@@ -192,227 +191,222 @@ const InvoiceBuilderForm = () => {
                     />
                 </Modal>
             )}
-            <StyledInvoiceBuilderForm
-                invoicebuildercolor={defaultColor}
-            >
-                <div className='invoice_builder_page'>
-                    <div className='invoice_builder_page_header'>
-                        <div className='invoice_builder_page_header_upload'>
-                            {logo ? (
-                                <div className="invoice_builder_page_header_upload_image">
+            <div className='invoice_builder_page'>
+                <div className='invoice_builder_page_header'>
+                    <div className='invoice_builder_page_header_upload'>
+                        {logo ? (
+                            <div className="invoice_builder_page_header_upload_image">
+                                <Image
+                                    src={logo}
+                                    width={60}
+                                    height={60}
+                                    alt='avatar'
+                                />
+                                <div className="image_hover_effect">
                                     <Image
-                                        src={logo}
-                                        width={60}
-                                        height={60}
-                                        alt='avatar'
-                                    />
-                                    <div className="image_hover_effect">
-                                        <Image
-                                            width={20}
-                                            height={20}
-                                            alt="plusWhite"
-                                            src={Icons.plusWhite}
-                                            onClick={() => {
-                                                dispatch(setLogo(null))
-                                                fileInputRef.current = null
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className='invoice_builder_page_header_upload_btn'>
-                                    <div className='invoice_builder_page_header_upload_btn_content'>
-                                        <Image
-                                            width={34}
-                                            height={31}
-                                            alt='uploadFileLogo'
-                                            src={Icons.fileUploadLogo}
-                                        />
-                                        <div className='invoice_builder_page_header_upload_btn_content_file'>
-                                            <p>Add your business logo</p>
-                                            <h1>Select a file</h1>
-                                        </div>
-                                    </div>
-                                    <input
-                                        type='file'
-                                        ref={fileInputRef}
-                                        onChange={handleUploadInvoiceLogo}
+                                        width={20}
+                                        height={20}
+                                        alt="plusWhite"
+                                        src={Icons.plusWhite}
+                                        onClick={() => {
+                                            dispatch(setLogo(null))
+                                            fileInputRef.current = null
+                                        }}
                                     />
                                 </div>
-                            )}
-                        </div>
-                        <div className='invoice_builder_page_header_select_invoice'>
-                            <p>Invoice Type</p>
-                            <select
-                                onChange={(e) => dispatch(setType(e.target.value))}
-                            >
-                                <option value=''>Select</option>
-                                <option value='sales invoice'>Sales invoice</option>
-                                <option value='business invoice'>Business invoice</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className='invoice_builder_page_body'>
-                        <div className='invoice_builder_page_body_from'>
-                            <p>From</p>
-                            {!senderDetail ? (
-                                <SenderInputBox />
-                            ) : (
-                                <SenderDetailBox detail={senderDetail} />
-                            )}
-                        </div>
-                        <div className='invoice_builder_page_body_to'>
-                            <p>To</p>
-                            {!receiverDetail ? (
-                                <ReceiverInputBox />
-                            ) : (
-                                <ReceiverDetailBox detail={receiverDetail} />
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="invoice_builder_page_controls">
-                        <div className="invoice_builder_page_controls_date">
-                            <label htmlFor='invoiceDate'>Invoice Date:</label>
-                            <DatePicker
-                                id='invoiceDate'
-                                onChange={(date, dateString) => dispatch(setDate(dateString))}
-                            />
-                        </div>
-                        {isInvoiceDueDate && (
-                            <div className="invoice_builder_page_controls_date">
-                                <label htmlFor='dueDate'>Due Date:</label>
-                                <DatePicker
-                                    id='dueDate'
-                                    onChange={(date, dateString) => dispatch(setDueDate(dateString))}
+                            </div>
+                        ) : (
+                            <div className='invoice_builder_page_header_upload_btn'>
+                                <div className='invoice_builder_page_header_upload_btn_content'>
+                                    <Image
+                                        width={34}
+                                        height={31}
+                                        alt='uploadFileLogo'
+                                        src={Icons.fileUploadLogo}
+                                    />
+                                    <div className='invoice_builder_page_header_upload_btn_content_file'>
+                                        <p>Add your business logo</p>
+                                        <h1>Select a file</h1>
+                                    </div>
+                                </div>
+                                <input
+                                    type='file'
+                                    ref={fileInputRef}
+                                    onChange={handleUploadInvoiceLogo}
                                 />
                             </div>
                         )}
                     </div>
-
-                    <div className='invoice_builder_page_table'>
-                        <div className='invoice_builder_page_table_header'>
-                            <p style={{ width: '25%' }}>Items</p>
-                            <p>QTY/HRS</p>
-                            <p>Rate</p>
-                            {isInvoiceTax && <p>Tax</p>}
-                            <p>Subtotal</p>
-                        </div>
-                        {items.map((item) => {
-                            return (
-                                <div
-                                    key={item._id}
-                                    className='invoice_builder_page_table_row'
-                                >
-                                    {editableField?._id == item._id ? (
-                                        <div className='invoice_builder_page_table_editable'>
-                                            <div className='invoice_builder_page_table_editable_inputs'>
-                                                <Input
-                                                    name='item'
-                                                    value={editableField.item}
-                                                    placeholder='Name of your product or service'
-                                                    onChange={(e) => handleEditableInputField("item", e.target.value)}
-                                                />
-                                                <InputNumber
-                                                    max='99'
-                                                    name='qty'
-                                                    placeholder='1'
-                                                    value={editableField.qty}
-                                                    onChange={(e) => handleEditableInputField("qty", e)}
-                                                />
-                                                <InputNumber
-                                                    max='99'
-                                                    name='rate'
-                                                    placeholder='$ 0.0'
-                                                    value={editableField.rate}
-                                                    onChange={(e) => handleEditableInputField("rate", e)}
-                                                />
-                                                {isInvoiceTax && (
-                                                    <InputNumber
-                                                        max='99'
-                                                        name='tax'
-                                                        placeholder='% 0.0'
-                                                        value={editableField.tax}
-                                                        onChange={(e) => handleEditableInputField("tax", e)}
-                                                    />
-                                                )}
-
-                                                <p>$ {handleTaxValue(item)}</p>
-                                            </div>
-
-                                            <div className='invoice_builder_page_table_editable_textarea'>
-                                                <TextArea
-                                                    name='description'
-                                                    placeholder='Description'
-                                                    value={editableField.description}
-                                                    onChange={(e) => handleEditableInputField("description", e.target.value)}
-                                                />
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className='showCrossOnHover'>
-                                            <div
-                                                className='invoice_builder_page_table_row_body'
-                                                onClick={() => dispatch(setEditableField(item))}
-                                            >
-                                                <p style={{ width: '25%' }}>{item.item}</p>
-                                                <p>{item.qty}</p>
-                                                <p>{item.rate}</p>
-                                                {isInvoiceTax ? <p>{item.tax}</p> : null}
-                                                <p>$ {handleTaxValue(item)}</p>
-                                            </div>
-                                            <h6 className="tableRowDescription" >{item.description}</h6>
-                                            <span className='tableActions'>
-                                                <Image
-                                                    alt='cross'
-                                                    src={Icons.cross}
-                                                    onClick={() => dispatch(setRemoveItem(item._id))}
-                                                />
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
-                            )
-                        })}
-                        <InvoiceListItemAddition />
+                    <div className='invoice_builder_page_header_select_invoice'>
+                        <p>Invoice Type</p>
+                        <select
+                            onChange={(e) => dispatch(setType(e.target.value))}
+                        >
+                            <option value=''>Select</option>
+                            <option value='sales invoice'>Sales invoice</option>
+                            <option value='business invoice'>Business invoice</option>
+                        </select>
                     </div>
+                </div>
 
-                    <div className='invoice_builder_page_summary'>
-                        <div className='invoice_builder_page_summary_header'>
-                            <p>Invoice Summary</p>
-                        </div>
-                        <div className='invoice_builder_page_summary_body'>
-                            <div className='invoice_builder_page_summary_body_subtotal'>
-                                <p>Subtotal</p>
-                                <h6>USD<span>{calculatedSubTotalValue()}</span></h6>
-                            </div>
-                            {isInvoiceTax && (
-                                <div className='invoice_builder_page_summary_body_tax'>
-                                    <p>Tax</p>
-                                    <h6>--</h6>
-                                </div>
-                            )}
-                            <div className='invoice_builder_page_summary_body_total'>
-                                <p>Total</p>
-                                <h6>USD<span>{calculatedSubTotalValue()}</span></h6>
-                            </div>
-                        </div>
+                <div className='invoice_builder_page_body'>
+                    <div className='invoice_builder_page_body_from'>
+                        <p>From</p>
+                        {!senderDetail ? (
+                            <SenderInputBox />
+                        ) : (
+                            <SenderDetailBox detail={senderDetail} />
+                        )}
                     </div>
+                    <div className='invoice_builder_page_body_to'>
+                        <p>To</p>
+                        {!receiverDetail ? (
+                            <ReceiverInputBox />
+                        ) : (
+                            <ReceiverDetailBox detail={receiverDetail} />
+                        )}
+                    </div>
+                </div>
 
-                    <div className='invoice_builder_page_footer'>
-                        <input
-                            type='text'
-                            value={additionalNote}
-                            placeholder='Additional Note'
-                            onChange={(e) => dispatch(setAdditionalNote(e.target.value))}
+                <div className="invoice_builder_page_controls">
+                    <div className="invoice_builder_page_controls_date">
+                        <label htmlFor='invoiceDate'>Invoice Date:</label>
+                        <DatePicker
+                            id='invoiceDate'
+                            format="MMM DD, YYYY"
+                            onChange={(date, dateString) => dispatch(setDate(dateString))}
                         />
                     </div>
+                    {isInvoiceDueDate && (
+                        <div className="invoice_builder_page_controls_date">
+                            <label htmlFor='dueDate'>Due Date:</label>
+                            <DatePicker
+                                id='dueDate'
+                                format="MMM DD, YYYY"
+                                onChange={(date, dateString) => dispatch(setDueDate(dateString))}
+                            />
+                        </div>
+                    )}
                 </div>
-                <div className='invoice_builder_page_setting'>
-                    <InvoiceSetting />
+
+                <div className='invoice_builder_page_table'>
+                    <div className='invoice_builder_page_table_header'>
+                        <p style={{ width: '25%' }}>Items</p>
+                        <p>QTY/HRS</p>
+                        <p>Rate</p>
+                        {isInvoiceTax && <p>Tax</p>}
+                        <p>Subtotal</p>
+                    </div>
+                    {items.map((item) => {
+                        return (
+                            <div
+                                key={item._id}
+                                className='invoice_builder_page_table_row'
+                            >
+                                {editableField?._id == item._id ? (
+                                    <div className='invoice_builder_page_table_editable'>
+                                        <div className='invoice_builder_page_table_editable_inputs'>
+                                            <Input
+                                                name='item'
+                                                value={editableField.item}
+                                                placeholder='Name of your product or service'
+                                                onChange={(e) => handleEditableInputField("item", e.target.value)}
+                                            />
+                                            <InputNumber
+                                                max='99'
+                                                name='qty'
+                                                placeholder='1'
+                                                value={editableField.qty}
+                                                onChange={(e) => handleEditableInputField("qty", e)}
+                                            />
+                                            <InputNumber
+                                                max='99'
+                                                name='rate'
+                                                placeholder='$ 0.0'
+                                                value={editableField.rate}
+                                                onChange={(e) => handleEditableInputField("rate", e)}
+                                            />
+                                            {isInvoiceTax && (
+                                                <InputNumber
+                                                    max='99'
+                                                    name='tax'
+                                                    placeholder='% 0.0'
+                                                    value={editableField.tax}
+                                                    onChange={(e) => handleEditableInputField("tax", e)}
+                                                />
+                                            )}
+
+                                            <p>$ {handleTaxValue(item)}</p>
+                                        </div>
+
+                                        <div className='invoice_builder_page_table_editable_textarea'>
+                                            <TextArea
+                                                name='description'
+                                                placeholder='Description'
+                                                value={editableField.description}
+                                                onChange={(e) => handleEditableInputField("description", e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className='showCrossOnHover'>
+                                        <div
+                                            className='invoice_builder_page_table_row_body'
+                                            onClick={() => dispatch(setEditableField(item))}
+                                        >
+                                            <p style={{ width: '25%' }}>{item.item}</p>
+                                            <p>{item.qty}</p>
+                                            <p>{item.rate}</p>
+                                            {isInvoiceTax ? <p>{item.tax}</p> : null}
+                                            <p>$ {handleTaxValue(item)}</p>
+                                        </div>
+                                        <h6 className="tableRowDescription" >{item.description}</h6>
+                                        <span className='tableActions'>
+                                            <Image
+                                                alt='cross'
+                                                src={Icons.cross}
+                                                onClick={() => dispatch(setRemoveItem(item._id))}
+                                            />
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        )
+                    })}
+                    <InvoiceListItemAddition />
                 </div>
-            </StyledInvoiceBuilderForm>
+
+                <div className='invoice_builder_page_summary'>
+                    <div className='invoice_builder_page_summary_header'>
+                        <p>Invoice Summary</p>
+                    </div>
+                    <div className='invoice_builder_page_summary_body'>
+                        <div className='invoice_builder_page_summary_body_subtotal'>
+                            <p>Subtotal</p>
+                            <h6>{currency}<span>{calculatedSubTotalValue()}</span></h6>
+                        </div>
+                        {isInvoiceTax && (
+                            <div className='invoice_builder_page_summary_body_tax'>
+                                <p>Tax</p>
+                                <h6>--</h6>
+                            </div>
+                        )}
+                        <div className='invoice_builder_page_summary_body_total'>
+                            <p>Total</p>
+                            <h6>{currency}<span>{calculatedSubTotalValue()}</span></h6>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='invoice_builder_page_footer'>
+                    <input
+                        type='text'
+                        value={additionalNote}
+                        placeholder='Additional Note'
+                        onChange={(e) => dispatch(setAdditionalNote(e.target.value))}
+                    />
+                </div>
+            </div>
         </React.Fragment>
     )
 }

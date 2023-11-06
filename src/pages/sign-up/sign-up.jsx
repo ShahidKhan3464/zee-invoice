@@ -134,7 +134,7 @@ const SignUp = () => {
                             <div></div>
                         </div>
 
-                        <div className="social-media_btns">
+                        <div className="social-media_btn">
                             <button>
                                 <Image
                                     width={24}
@@ -144,7 +144,7 @@ const SignUp = () => {
                                 />
                                 <span>Google</span>
                             </button>
-                            <button>
+                            {/* <button>
                                 <Image
                                     width={24}
                                     height={24}
@@ -161,7 +161,7 @@ const SignUp = () => {
                                     src={Icons.apple}
                                 />
                                 <span>Apple</span>
-                            </button>
+                            </button> */}
                         </div>
 
                         <div className='sign-up'>

@@ -108,6 +108,7 @@ export const StyledBox = styled.div`
                     text-align: center;
                     font-family: Inter;
                     font-style: normal;
+                    text-decoration: none;
                     color: ${Colors.primary};
                 }
             }
@@ -168,13 +169,14 @@ export const StyledBox = styled.div`
                 }
             }
 
-            .social-media_btns {
+            .social-media_btn {
                 gap: 20px;
                 display: flex;
                 align-items: center;
                 
                 button {
                     gap: 4px;
+                    width: 100%;
                     display: flex;
                     outline: none;
                     cursor: pointer;
@@ -182,6 +184,7 @@ export const StyledBox = styled.div`
                     border-radius: 6px;
                     align-items: center;
                     background: transparent;
+                    justify-content: center;
                     border: 1px solid #E0E0E0;
 
                     span {

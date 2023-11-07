@@ -17,6 +17,8 @@ Font.register({
 const PdfTemplate = ({ invoiceData, defaultColor }) => {
   const { no, logo, type, senderDetail, receiverDetail, date, dueDate, items, additionalNote, currency } = invoiceData
 
+  // const isPdfRendered = logo && type && senderDetail && receiverDetail && dueDate && items
+
   const styles = StyleSheet.create({
     page: {
       width: '600px',
@@ -33,13 +35,13 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
       justifyContent: 'space-between',
 
       logoBox: {
-        height: '40px',
-        width: '132px',
+        width: '60px',
+        height: '60px',
 
         image: {
-          width: '100%',
-          height: '100%',
-          objectFit: 'contain',
+          // width: '100%',
+          // height: '100%',
+          objectFit: 'cover',
         },
       },
 
@@ -261,10 +263,10 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
 
   return (
     <Document>
-      <Page style={styles.page} >
+      <Page style={styles.page}>
         <View style={styles.header}>
           <View style={styles.header.logoBox}>
-            {logo && <Image style={styles.header.logoBox.image} source={logo} alt='logo' />}
+            <Image style={styles.header.logoBox.image} source={logo} alt='logo' />
           </View>
           <View>
             <Text style={styles.header.key}>Invoice No:
@@ -305,10 +307,13 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
               <Text style={styles.section.datePart.date.key}>Invoice Date:</Text>
               <Text style={styles.section.datePart.date.value}>{date}</Text>
             </View>
-            <View style={styles.section.datePart.date}>
-              <Text style={styles.section.datePart.date.key}>Due Date:</Text>
-              <Text style={styles.section.datePart.date.value}>{dueDate}</Text>
-            </View>
+
+            {dueDate && (
+              <View style={styles.section.datePart.date}>
+                <Text style={styles.section.datePart.date.key}>Due Date:</Text>
+                <Text style={styles.section.datePart.date.value}>{dueDate}</Text>
+              </View>
+            )}
           </View>
 
           <View style={styles.section.tables}>

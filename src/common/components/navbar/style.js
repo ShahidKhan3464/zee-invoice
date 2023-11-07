@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 export const StyledNavbar = styled.div`
     width: 100%;
+    z-index: 1;
     position: fixed;
     padding: 20px 0;
     background: ${(props) => (props.isnavbarbgcolor ? "white" : "none")};

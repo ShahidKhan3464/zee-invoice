@@ -126,10 +126,10 @@ const InvoiceSetting = () => {
                             onChange={(value) => dispatch(setInvoiceTax(value))}
                         />
                     </div>
-                    <div className='builder_setting_invoiceDetail_switch'>
+                    {/* <div className='builder_setting_invoiceDetail_switch'>
                         <p>Shipping Detail</p>
                         <Switch />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </StyledInvoiceSetting>

@@ -190,7 +190,6 @@ const validationSchema = Yup.object({
         .min(6, 'Name must be at least 6 characters long')
         .max(32, "Name cannot exceed 32 characters"),
     company: Yup.string()
-        .required("Company is required!")
         .min(6, 'Company must be at least 6 characters long')
         .max(50, "Company cannot exceed 50 characters"),
     email: Yup.string()
@@ -208,7 +207,6 @@ const validationSchema = Yup.object({
         .min(6, 'City must be at least 6 characters long')
         .max(15, "City cannot exceed 15 characters"),
     state: Yup.string()
-        .required("State is required!")
         .min(6, 'State must be at least 6 characters long')
         .max(15, "State cannot exceed 15 characters"),
 })

@@ -1,10 +1,11 @@
 "use client";
 
+import dayjs from 'dayjs';
 import Image from 'next/image';
 import CountryData from "country-data";
 import { Icons } from '@/common/assets';
-import React, { useRef, memo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
 import { Modal, Input, InputNumber, DatePicker } from "antd";
 import InvoiceListItemAddition from './invoice-listItem-addition';
 import InvoiceModalBody from '@/common/components/invoice-modal-body';
@@ -13,12 +14,12 @@ const { TextArea } = Input;
 
 const InvoiceBuilderForm = () => {
     const dispatch = useDispatch()
+    const currentDate = new Date()
     const fileInputRef = useRef(null)
     const [specificUser, setSpecificUser] = useState("")
     const [generateInvoiceModal, setGenerateInvoiceModal] = useState(false)
     const { invoiceData, editableField, isInvoiceTax, isInvoiceDueDate } = useSelector(state => state.createInvoice)
-    const { logo, senderDetail, receiverDetail, items, additionalNote, currency } = invoiceData
-    // console.log('builder')
+    const { logo, senderDetail, receiverDetail, date, items, additionalNote, currency } = invoiceData
 
     const SenderInputBox = () => {
         return (
@@ -171,6 +172,10 @@ const InvoiceBuilderForm = () => {
         dispatch(setLogo(filePath))
     }
 
+    useEffect(() => {
+        dispatch(setDate(dayjs(currentDate).format('MMM DD, YYYY')))
+    }, [dispatch])
+
     return (
         <React.Fragment>
             {generateInvoiceModal && (
@@ -270,12 +275,13 @@ const InvoiceBuilderForm = () => {
 
                 <div className="invoice_builder_page_controls">
                     <div className="invoice_builder_page_controls_date">
-                        <label htmlFor='invoiceDate'>Invoice Date:</label>
-                        <DatePicker
+                        <p>Invoice Date:</p>
+                        <span className='date'>{date}</span>
+                        {/* <DatePicker
                             id='invoiceDate'
                             format="MMM DD, YYYY"
                             onChange={(date, dateString) => dispatch(setDate(dateString))}
-                        />
+                        /> */}
                     </div>
                     {isInvoiceDueDate && (
                         <div className="invoice_builder_page_controls_date">

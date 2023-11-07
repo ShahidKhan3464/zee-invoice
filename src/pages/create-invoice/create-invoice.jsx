@@ -1,11 +1,12 @@
 "use client";
 
+import { Modal } from "antd";
 import Image from 'next/image';
 import { Container } from "@mui/material";
 import { Palette } from "color-thief-react";
 import InvoiceSetting from './invoice-setting';
 import Footer from "@/common/components/footer";
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Colors from "@/common/constants/color.constant";
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,18 +16,15 @@ import CustomButton from "@/common/components/custom-button";
 import InvoiceNavbar from "@/common/components/valid-user-navbar";
 import { StyledCreateInvoice, StyledInvoiceBuilderForm, StyledInvoiceBuilderHeader } from "./style";
 import { setInvoiceNo, setPaletteColors } from '@/provider/features/create-invoice/create-invoice.slice';
+import SaveInfo from "./save-info";
 
 const CreateInvoice = () => {
     const dispatch = useDispatch()
     const [colors, setColors] = useState(null)
+    const [saveInfoModal, setSaveInfoModal] = useState(false)
     const { invoiceData, defaultColor } = useSelector(state => state.createInvoice)
     const { no, logo, type, date, senderDetail, receiverDetail, items, additionalNote } = invoiceData
-    const isPdfRendered = type && date && senderDetail && receiverDetail && additionalNote && items.length > 0
-
-    // const MemoizedInvoiceBuilderForm = useMemo(() => {
-    //     return <InvoiceBuilderForm invoicetitle={invoicetitle} />
-
-    // }, [invoicetitle])
+    const isPdfRendered = type && senderDetail && receiverDetail && items.length > 0
 
     useEffect(() => {
         const randomNumber = Math.floor(10000 + Math.random() * 90000)
@@ -39,6 +37,17 @@ const CreateInvoice = () => {
 
     return (
         <React.Fragment>
+            {saveInfoModal && (
+                <Modal
+                    centered
+                    width='520px'
+                    footer={false}
+                    open={saveInfoModal}
+                    onCancel={() => setSaveInfoModal(false)}
+                >
+                    <SaveInfo />
+                </Modal>
+            )}
             <InvoiceNavbar />
             <StyledCreateInvoice>
                 <Container>
@@ -88,8 +97,9 @@ const CreateInvoice = () => {
                                             width="100%"
                                             pd={"10px 24px"}
                                             color='#FFFFFF'
-                                            bg={Colors.primary}
                                             title='Download PDF'
+                                            disabled={!isPdfRendered}
+                                            bg={!isPdfRendered ? '#D1D5DB' : Colors.primary}
                                         />
                                     )
                                 }}
@@ -101,7 +111,6 @@ const CreateInvoice = () => {
                         invoicebuildercolor={defaultColor}
                     >
                         <InvoiceBuilderForm />
-                        {/* {MemoizedInvoiceBuilderForm} */}
                         <InvoiceSetting />
                     </StyledInvoiceBuilderForm>
                 </Container>
@@ -120,7 +129,6 @@ const CreateInvoice = () => {
                                 : null
                     }
                 </Palette>
-                {/* <SaveInfoModal openModal={saveInfoModal} closeModal={setSaveInfoModal} /> */}
             </StyledCreateInvoice>
             <Footer />
         </React.Fragment>

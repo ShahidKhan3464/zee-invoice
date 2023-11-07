@@ -386,6 +386,120 @@ export const StyledSaveTime = styled.div`
     }
 `
 
+
+export const StyledGetInTouch = styled.div`
+    padding-top: 100px;
+
+    @media screen and (max-width: 768px) {
+        padding-top: 55px;
+    }
+
+    .getInTouch_content {
+        gap: 80px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        @media screen and (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+
+        &_img {
+            width: 100%;
+            max-width: 580px;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        &_form {
+            padding: 30px 0 12px;
+
+            &_title {
+                gap: 20px;
+                display: flex;
+                flex-direction: column;
+
+                h2 {
+                    color: #101828;
+                    font-size: 48px;
+                    font-weight: 600;
+                    line-height: 44px;
+                    font-family: Inter;
+                    font-style: normal;
+                    letter-spacing: -0.96px;
+                }
+
+                p {
+                    color: #475467;
+                    font-size: 20px;
+                    font-weight: 400;
+                    line-height: 30px;
+                    font-family: Inter;
+                    font-style: normal;
+                }
+            }
+
+            form {
+                width: 100%;
+                max-width: 480px;
+                padding-top: 48px;
+
+                .field-control {
+                    padding-bottom: 24px;
+                    
+                    label {
+                        font-size: 14px;
+                        font-weight: 500;
+                    }
+
+                    input, textarea {
+                        padding: 10px 14px;
+                    }
+                }
+
+                .privacy-policy {
+                    padding-bottom: 24px;
+
+                    .checkbox {
+                        color: #D0D5DD;
+
+                        &:hover {
+                            background: transparent;
+                        }
+                    }
+
+                    .Mui-checked {
+                        color: ${Colors.primary};
+                    }
+
+                    .MuiFormControlLabel-label {
+                        color: #475467;
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 24px;
+                        font-family: Inter;
+                        font-style: normal;
+
+                        .policy {
+                            color: #475467;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+
+                .btn-container {
+                    button {
+                        font-size: 22px;
+                        border-radius: 10px;
+                    }
+                }
+            }
+        }
+    }
+`
+
 export const StyledFooter = styled.div`
     margin-top: 100px;
     background: #222039;

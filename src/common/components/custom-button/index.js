@@ -3,7 +3,7 @@
 import React from 'react';
 import { StyledCustomButton } from './style';
 
-const CustomButton = ({ pd, fs, bg, width, color, radius, border, title, clicked = () => null, type = 'button' }) => {
+const CustomButton = ({ pd, fs, bg, width, color, radius, border, title, disabled = false, type = 'button', clicked = () => null }) => {
 
   return (
     <StyledCustomButton
@@ -15,6 +15,7 @@ const CustomButton = ({ pd, fs, bg, width, color, radius, border, title, clicked
       color={color}
       radius={radius}
       border={border}
+      disabled={disabled}
       onClick={() => clicked()}
     >
       {title}

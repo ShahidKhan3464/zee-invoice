@@ -66,6 +66,9 @@ const InvoiceListItemAddition = () => {
             if (subTotal && !checkNan) {
                 setFieldCalculatedValue(Math.floor(subTotal))
             }
+            else if (calculatedValueWithoutTax) {
+                setFieldCalculatedValue(calculatedValueWithoutTax)
+            }
         }
 
         else if (watchedValues?.length && !isInvoiceTax) {
@@ -139,7 +142,7 @@ const InvoiceListItemAddition = () => {
                                                         },
                                                     ]}
                                                 >
-                                                    <InputNumber max='99' placeholder='1' />
+                                                    <InputNumber placeholder='1' />
                                                 </Form.Item>
 
                                                 <Form.Item
@@ -155,22 +158,22 @@ const InvoiceListItemAddition = () => {
                                                         },
                                                     ]}
                                                 >
-                                                    <InputNumber max='99' placeholder='$ 0.0' />
+                                                    <InputNumber placeholder='$ 0.0' />
                                                 </Form.Item>
 
                                                 {isInvoiceTax && (
                                                     <Form.Item
                                                         {...restField}
                                                         name={[name, "tax"]}
-                                                        rules={[
-                                                            {
-                                                                required: true,
-                                                                message: "This field is required",
-                                                            },
-                                                            {
-                                                                validator: isNumberPositive,
-                                                            },
-                                                        ]}
+                                                    // rules={[
+                                                    //     {
+                                                    //         required: true,
+                                                    //         message: "This field is required",
+                                                    //     },
+                                                    //     {
+                                                    //         validator: isNumberPositive,
+                                                    //     },
+                                                    // ]}
                                                     >
                                                         <InputNumber max='99' placeholder='% 0.0' />
                                                     </Form.Item>

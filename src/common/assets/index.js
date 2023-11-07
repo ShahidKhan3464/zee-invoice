@@ -61,6 +61,7 @@ export const Icons = {
 export const Images = {
     easyToUse: require('./images/easy-to-use.png'),
     saveTimeBg: require('./images/save-timeBg.png'),
+    getInTouch: require('./images/get-in-touch.png'),
     invoiceMoto: require('./images/invoice-moto.png'),
     customColor: require('./images/custom-color.png'),
     userInvoice: require('./images/user-invoice.png'),

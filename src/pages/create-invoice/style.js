@@ -331,7 +331,10 @@ export const StyledInvoiceBuilderForm = styled.div`
       grid-template-columns: 1fr 1fr;
 
       &_date {
-        label {
+        display: flex;
+        align-items: center;
+
+        p, .date, label {
           color: #202020;
           font-size: 10px;
           font-weight: 600;
@@ -339,6 +342,13 @@ export const StyledInvoiceBuilderForm = styled.div`
           margin-right: 8px;
           font-style: normal;
           font-family: Inter;
+        }
+
+        .date {
+          font-size: 12px;
+          padding: 9px 11px;
+          border-radius: 6px;
+          border: 1px solid #d9d9d9;
         }
       }
     }
@@ -820,5 +830,108 @@ export const StyledColorCheckbox = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-image: url(${Icons.checked.src});
+  }
+`
+
+export const StyledSaveInfo = styled.div`
+  padding: 56px 4px 0;
+
+  .saveInfo_header {
+    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 30px;
+      text-align: center;
+      font-family: Inter;
+      font-style: normal;
+      color: ${Colors.secondary};
+    }
+
+    p {
+      color: #6B7280;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: center;
+      font-family: Inter;
+      font-style: normal;
+    }
+  }
+
+  .saveInfo_body {
+    padding: 40px 0;
+
+    button {
+      width: 100%;
+      height: 56px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      line-height: 28px;
+      text-align: center;
+      font-family: Inter;
+      font-style: normal;
+      border-radius: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .account-btn {
+      color: #fff;
+      border: none;
+      background: ${Colors.primary};
+    }
+
+    .login-btn {
+      margin-top: 24px;
+      background: transparent;
+      color: ${Colors.primary};
+      border: 1px solid ${Colors.primary}
+    }
+  }
+
+  .saveInfo_footer {
+    
+    &_divider {
+      gap: 32px;
+      display: grid;
+      align-items: center;
+      grid-template-columns: 1fr 23px 1fr;
+
+      span {
+        height: 1px;
+        width: 100%;
+        background-color: #9CA3AF;
+      }
+
+      p {
+        color: #6B7280;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        font-style: normal;
+        font-family: Inter;
+      }
+    }
+
+    &_title {      
+      padding-top: 40px;
+      padding-bottom: 10px;
+
+      h6 {
+        color: #2563eb;
+        font-size: 14px;
+        cursor: pointer;
+        font-weight: 400;
+        line-height: 22px;
+        text-align: center;
+        font-style: normal;
+        font-family: Inter;
+      }
+    }
   }
 `

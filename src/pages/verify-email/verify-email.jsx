@@ -5,10 +5,13 @@ import React, { useState } from 'react';
 import { Icons } from '@/common/assets';
 import Footer from "@/common/components/footer";
 import { CircularProgress } from '@mui/material';
+import { useSearchParams } from 'next/navigation';
 import Colors from '@/common/constants/color.constant';
 import { PrimaryButton, StyledBox } from '@/common/styles';
 
 const VerfiyEmail = () => {
+    const searchParams = useSearchParams()
+    const email = searchParams.get('email')
     const [loading, setLoading] = useState(false)
 
     return (
@@ -24,7 +27,7 @@ const VerfiyEmail = () => {
                         />
                         <h2>Verify your Email</h2>
                         <p>
-                            Thanks for signing up! There{"'"}s one quick step left. Please verify your email. We have sent a verification email to <span style={{ color: Colors.secondary }}>example@gmail.com</span>
+                            Thanks for signing up! There{"'"}s one quick step left. Please verify your email. We have sent a verification email to <span style={{ color: Colors.secondary }}>{email}</span>
                         </p>
                     </div>
 

@@ -4,7 +4,7 @@ import { getAccessToken } from "@/common/utils/access-token.util";
 // const { REACT_APP_PUBLIC_URL } = process.env
 const authToken = getAccessToken()
 
-const baseURL = 'https://zeeinvoices.zaptatech.com/api/v1'
+const baseURL = 'https://zeeinvoices.zeeframes.com/api/v1'
 
 class ApiClient {
 

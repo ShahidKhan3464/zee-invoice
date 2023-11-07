@@ -6,21 +6,35 @@ import Image from 'next/image';
 import { Formik, Form } from "formik";
 import { Icons } from "@/common/assets";
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Checkbox from '@mui/material/Checkbox';
 import Footer from "@/common/components/footer";
 import FormControl from "@/common/utils/form-control";
+import { useDispatch, useSelector } from "react-redux";
 import { PrimaryButton, StyledBox } from '@/common/styles';
+import { signup } from "@/provider/features/auth/auth.slice";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const SignUp = () => {
-    const [loading, setLoading] = useState(false)
+    const route = useRouter()
+    const dispatch = useDispatch()
     const [termsCondition, setTermsCondition] = useState(false)
+    const { isLoading } = useSelector(state => state.auth.signup)
 
     const initialValues = {
+        name: "",
         email: "",
         password: "",
-        confirmPassword: ""
+        confirm_password: ""
+    }
+
+    const moveRouter = (email) => {
+        route.push(`/verify-email?email=${email}`)
+    }
+
+    const handleSubmit = (data) => {
+        dispatch(signup({ userData: data, successCallBack: moveRouter }))
     }
 
     return (
@@ -36,7 +50,7 @@ const SignUp = () => {
                         <Formik
                             initialValues={initialValues}
                             validationSchema={validationSchema}
-                        // onSubmit={handleSubmit}
+                            onSubmit={handleSubmit}
                         >
                             {(formik) => {
                                 return (
@@ -44,8 +58,23 @@ const SignUp = () => {
                                         noValidate
                                         name='basic'
                                         autoComplete='off'
-                                    // onFinish={formik.handleSubmit}
+                                        onFinish={formik.handleSubmit}
                                     >
+                                        <div className='field-control'>
+                                            <FormControl
+                                                label=''
+                                                type='text'
+                                                name='name'
+                                                control='input'
+                                                placeholder='Name'
+                                                className={
+                                                    formik.errors.name && formik.touched.name
+                                                        ? "is-invalid"
+                                                        : "customInput"
+                                                }
+                                            />
+                                        </div>
+
                                         <div className='field-control'>
                                             <FormControl
                                                 label=''
@@ -81,10 +110,10 @@ const SignUp = () => {
                                                 label=''
                                                 type='text'
                                                 control='input'
-                                                name='confirmPassword'
+                                                name='confirm_password'
                                                 placeholder='Confrim Password'
                                                 className={
-                                                    formik.errors.confirmPassword && formik.touched.confirmPassword
+                                                    formik.errors.confirm_password && formik.touched.confirm_password
                                                         ? "is-invalid"
                                                         : "customInput"
                                                 }
@@ -109,9 +138,9 @@ const SignUp = () => {
                                         <div className="btn-container">
                                             <PrimaryButton
                                                 type='submit'
-                                                disabled={loading}
+                                                disabled={isLoading}
                                             >
-                                                {loading ? (
+                                                {isLoading ? (
                                                     <CircularProgress
                                                         size={22}
                                                         color='inherit'
@@ -178,6 +207,9 @@ const SignUp = () => {
 
 export default SignUp
 const validationSchema = Yup.object({
+    name: Yup.string()
+        .required('This field is required')
+        .matches(/^[A-Za-z]+$/, 'Name should contain only alphabets'),
     email: Yup.string()
         .email('Invalid email address')
         .required('This field is required'),
@@ -186,7 +218,7 @@ const validationSchema = Yup.object({
         .min(8, 'Password must contain min 8 characters')
         .max(20, 'Password can have max 20 characters')
         .matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).*$/, 'Password must contain at least one upper-case letter, one lower-case letter, one numeric character, and one special character'),
-    confirmPassword: Yup.string()
+    confirm_password: Yup.string()
         .required('This field is required')
         .oneOf([Yup.ref('password'), null], 'The password and confirm password are incorrect'),
 });

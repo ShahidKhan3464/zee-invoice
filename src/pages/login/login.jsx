@@ -1,22 +1,40 @@
 "use client";
 
+import React from 'react';
 import * as Yup from "yup";
 import Link from 'next/link';
 import Image from 'next/image';
 import { Formik, Form } from "formik";
 import { Icons } from "@/common/assets";
-import React, { useState } from 'react';
 import Footer from "@/common/components/footer";
+import { useGoogleLogin } from '@react-oauth/google';
 import FormControl from "@/common/utils/form-control";
+import { useDispatch, useSelector } from "react-redux";
 import { PrimaryButton, StyledBox } from '@/common/styles';
 import CircularProgress from '@mui/material/CircularProgress';
+import { login, loginWithOAuthGoogle } from "@/provider/features/auth/auth.slice";
 
 const Login = () => {
-    const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
+    const { isLoading } = useSelector(state => state.auth.login)
+    const a = useSelector(state => state.auth.loginWithOAuthGoogle)
+    console.log(a)
 
     const initialValues = {
         email: "",
         password: ""
+    }
+
+    const loginWithGoogle = useGoogleLogin({
+        onSuccess: tokenResponse => dispatch(loginWithOAuthGoogle(tokenResponse.access_token))
+    })
+
+    const moveRouter = () => {
+        alert('success')
+    }
+
+    const handleSubmit = (data) => {
+        dispatch(login({ userData: data, successCallBack: moveRouter }))
     }
 
     return (
@@ -31,7 +49,7 @@ const Login = () => {
                         <Formik
                             initialValues={initialValues}
                             validationSchema={validationSchema}
-                        // onSubmit={handleSubmit}
+                            onSubmit={handleSubmit}
                         >
                             {(formik) => {
                                 return (
@@ -39,7 +57,7 @@ const Login = () => {
                                         noValidate
                                         name='basic'
                                         autoComplete='off'
-                                    // onFinish={formik.handleSubmit}
+                                        onFinish={formik.handleSubmit}
                                     >
                                         <div className='field-control'>
                                             <FormControl
@@ -78,9 +96,9 @@ const Login = () => {
                                         <div className="btn-container">
                                             <PrimaryButton
                                                 type='submit'
-                                                disabled={loading}
+                                                disabled={isLoading}
                                             >
-                                                {loading ? (
+                                                {isLoading ? (
                                                     <CircularProgress size={22} color='inherit' />
                                                 ) : (
                                                     <span>Login</span>
@@ -100,7 +118,10 @@ const Login = () => {
                         </div>
 
                         <div className="social-media_btn">
-                            <button>
+                            <button
+                                type="button"
+                                onClick={() => loginWithGoogle()}
+                            >
                                 <Image
                                     width={24}
                                     height={24}
@@ -109,24 +130,6 @@ const Login = () => {
                                 />
                                 <span>Google</span>
                             </button>
-                            {/* <button>
-                                <Image
-                                    width={24}
-                                    height={24}
-                                    alt='facebook'
-                                    src={Icons.facebook}
-                                />
-                                <span>Facebook</span>
-                            </button>
-                            <button>
-                                <Image
-                                    width={24}
-                                    height={24}
-                                    alt='apple'
-                                    src={Icons.apple}
-                                />
-                                <span>Apple</span>
-                            </button> */}
                         </div>
 
                         <div className='sign-up'>

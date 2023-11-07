@@ -2,13 +2,15 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Icons, Images } from '@/common/assets';
+import { Icons } from '@/common/assets';
 import { Container } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import { StyledSoftwareInvoice } from './style';
 import Colors from '@/common/constants/color.constant';
 import CustomButton from '@/common/components/custom-button';
 
 const SoftwareInvoice = () => {
+    const route = useRouter()
 
     return (
         <StyledSoftwareInvoice>
@@ -39,6 +41,7 @@ const SoftwareInvoice = () => {
                                     color='#FFFFFF'
                                     bg={Colors.primary}
                                     title='Generate Invoice'
+                                    clicked={() => route.push('/create-invoice')}
                                 />
                             </div>
                         </div>

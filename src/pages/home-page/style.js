@@ -9,6 +9,10 @@ export const StyledHeroSection = styled.div`
         background-size: 100% 100%;
         background-repeat: no-repeat;
         background-image: url(${Images.heroSectionBg.default.src});
+
+        @media screen and (max-width: 768px) {
+            background-image: unset;
+        }
         
         &_content {
             height: 100vh;
@@ -35,7 +39,7 @@ export const StyledHeroSection = styled.div`
                         line-height: 25px;
                     }
 
-                    @media screen and (max-width: 480px) {
+                    @media screen and (max-width: 520px) {
                         font-size: 16px;
                     }
                 }
@@ -55,17 +59,23 @@ export const StyledHeroSection = styled.div`
                         line-height: 55px;
                     }
 
-                    @media screen and (max-width: 480px) {
+                    @media screen and (max-width: 520px) {
                         font-size: 32px;
                         line-height: 42px;
+                        padding-top: 10px;
                     }
                 }
             }
 
             &_btn {
                 margin-top: 40px;
-                @media screen and (max-width: 768px) {
-                    margin-top: 20px;
+                @media screen and (max-width: 700px) {
+                    margin-top: 25px;
+
+                    button {
+                        font-size: 16px;
+                        padding: 10px 20px;
+                    }
                 }
             }
         }
@@ -76,6 +86,10 @@ export const StyledInvoiceMockUp = styled.div`
     width: 100%;
     max-width: 1200px;
     margin: -10vh auto 0;
+    
+    @media screen and (max-width: 768px) {
+        margin: -15vh auto 0;
+    }
 
     img {
         position: inherit !important;
@@ -119,6 +133,15 @@ export const StyledAmazingFeatureSection = styled.div`
             flex-wrap: wrap;
             align-items: center;
 
+            @media screen and (max-width: 700px) {
+                justify-content: center;
+            }
+            
+            @media screen and (max-width: 520px) {
+                gap: 20px;
+                justify-content: center;
+            }
+
             &_card {
                 width: 100%;
                 padding: 30px;
@@ -128,8 +151,15 @@ export const StyledAmazingFeatureSection = styled.div`
                 background: #FFFFFF;
                 box-shadow: 0px 4px 34px 0px rgba(0, 0, 0, 0.08);
 
+                @media screen and (max-width: 520px) {
+                    padding: 15px;
+                }
+
                 &_icon {
                     margin-bottom: 35px;
+                    @media screen and (max-width: 520px) {
+                        margin-bottom: 20px;
+                    }
                 }
 
                 &_detail {
@@ -176,6 +206,7 @@ export const StyledSoftwareInvoice = styled.div`
         background-image: url(${Images.softwareInvoiceBg.default.src});
 
         @media screen and (max-width: 768px) {
+            min-height: 0;
             background-image: unset;
         }
 
@@ -185,8 +216,9 @@ export const StyledSoftwareInvoice = styled.div`
             padding-top: 80px;
             grid-template-columns: 1fr 1fr;
 
-            @media screen and (max-width: 768px) {
+            @media screen and (max-width: 1024px) {
                 padding-top: 56px;
+                padding-bottom: 30px;
                 grid-template-columns: 1fr;
 
                 img {
@@ -197,17 +229,17 @@ export const StyledSoftwareInvoice = styled.div`
                 }
             }
 
-            &_img {
-                @media screen and (max-width: 768px) {
-                    padding: 0 30px;
-                }
+            @media screen and (max-width: 520px) {
+                gap: 30px;
+                padding: 0;
             }
 
             &_detail {
-                @media screen and (max-width: 768px) {
-                    padding: 0 40px;
+
+                @media screen and (max-width: 520px) {
                     text-align: center;
                 }
+                
                 h1 {
                     font-size: 48px;
                     font-weight: 700;
@@ -219,7 +251,11 @@ export const StyledSoftwareInvoice = styled.div`
                     color: ${Colors.secondary};
                     @media screen and (max-width: 768px) {
                         font-size: 28px;
-                        line-height: 36px;
+                        line-height: 32px;
+                    }
+
+                    @media screen and (max-width: 520px) {
+                        margin-bottom: 24px;
                     }
                 }
                 p {
@@ -230,14 +266,27 @@ export const StyledSoftwareInvoice = styled.div`
                     font-style: normal;
                     font-family: Inter;
                     margin-bottom: 24px;
-                    @media screen and (max-width: 768px) {
-                        margin-top: 24px;
+
+                    @media screen and (max-width: 520px) {
+                        margin-bottom: 16px;
                     }
                 }
 
                 &_btn {
                     @media screen and (max-width: 768px) {
                         display: none;
+                    }
+                }
+            }
+
+            &_img {
+                @media screen and (max-width: 700px) {
+                    width: 100%;
+                    max-width: 300px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
                     }
                 }
             }
@@ -283,8 +332,13 @@ export const StyledSmartInvoice = styled.div`
             margin-bottom: 40px;
             grid-template-columns: 1fr 1fr;
 
-            @media screen and (max-width: 768px) {
+            @media screen and (max-width: 1024px) {
                 grid-template-columns: 1fr;
+            }
+
+            @media screen and (max-width: 520px) {
+                gap: 20px 40px;
+                margin-bottom: 0;
             }
 
             &_card {
@@ -296,6 +350,10 @@ export const StyledSmartInvoice = styled.div`
                 border-radius: 10px;
                 box-shadow: 0px 4px 34px 0px rgba(0, 0, 0, 0.08);
 
+                @media screen and (max-width: 520px) {
+                    padding: 15px;
+                }
+
                 &_detail {
                     h1 {
                         font-size: 22px;
@@ -305,6 +363,10 @@ export const StyledSmartInvoice = styled.div`
                         font-family: Inter;
                         margin-bottom: 12px;
                         color: ${Colors.secondary};
+                        @media screen and (max-width: 520px) {
+                            font-size: 16px;
+                            line-height: 24px;
+                        }
                     }
                     p {
                         color: #6b7280;
@@ -313,6 +375,10 @@ export const StyledSmartInvoice = styled.div`
                         line-height: 24px;
                         font-style: normal;
                         font-family: Inter;
+                        @media screen and (max-width: 520px) {
+                            font-size: 14px;
+                            line-height: 20px;
+                        }
                     }
                 }
             }
@@ -336,6 +402,7 @@ export const StyledSaveTime = styled.div`
         background-image: url(${Images.saveTimeBg.default.src});
 
         @media screen and (max-width: 768px) {
+            min-height: 0;
             background-image: unset;
         }
 
@@ -345,8 +412,18 @@ export const StyledSaveTime = styled.div`
             padding-top: 70px;
             grid-template-columns: 1fr 1fr;
 
-            @media screen and (max-width: 768px) {
+            @media screen and (max-width: 1024px) {
+                padding-bottom: 30px;
                 grid-template-columns: 1fr;
+            }
+            
+            @media screen and (max-width: 768px) {
+                padding-bottom: 0px;
+            }
+
+            @media screen and (max-width: 520px) {
+                gap: 30px;
+                padding-top: 0;
             }
 
             &_detail {
@@ -382,10 +459,21 @@ export const StyledSaveTime = styled.div`
                     }
                 }
             }
+
+            &_image {
+                @media screen and (max-width: 700px) {
+                    width: 100%;
+                    max-width: 335px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
         }
     }
 `
-
 
 export const StyledGetInTouch = styled.div`
     padding-top: 100px;
@@ -399,13 +487,17 @@ export const StyledGetInTouch = styled.div`
         display: grid;
         grid-template-columns: 1fr 1fr;
 
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 1024px) {
             grid-template-columns: 1fr;
         }
 
         &_img {
             width: 100%;
             max-width: 580px;
+
+            @media screen and (max-width: 768px) {
+                display: none;
+            }
 
             img {
                 width: 100%;
@@ -415,6 +507,10 @@ export const StyledGetInTouch = styled.div`
 
         &_form {
             padding: 30px 0 12px;
+
+            @media screen and (max-width: 520px) {
+                padding: 0;
+            }
 
             &_title {
                 gap: 20px;
@@ -429,6 +525,11 @@ export const StyledGetInTouch = styled.div`
                     font-family: Inter;
                     font-style: normal;
                     letter-spacing: -0.96px;
+
+                    @media screen and (max-width: 520px) {
+                        font-size: 28px;
+                        line-height: 32px;
+                    }
                 }
 
                 p {
@@ -438,6 +539,10 @@ export const StyledGetInTouch = styled.div`
                     line-height: 30px;
                     font-family: Inter;
                     font-style: normal;
+                    @media screen and (max-width: 520px) {
+                        font-size: 16px;
+                        line-height: 24px;
+                    }
                 }
             }
 
@@ -445,6 +550,10 @@ export const StyledGetInTouch = styled.div`
                 width: 100%;
                 max-width: 480px;
                 padding-top: 48px;
+
+                @media screen and (max-width: 520px) {
+                    padding-top: 25px;
+                }
 
                 .field-control {
                     padding-bottom: 24px;
@@ -493,6 +602,10 @@ export const StyledGetInTouch = styled.div`
                     button {
                         font-size: 22px;
                         border-radius: 10px;
+
+                        @media screen and (max-width: 520px) {
+                            font-size: 18px;
+                        }
                     }
                 }
             }
@@ -518,6 +631,10 @@ export const StyledFooter = styled.div`
         &_detail {
             text-align: center;
             margin-bottom: 64px;
+
+            @media screen and (max-width: 520px) {
+                margin-bottom: 50px;
+            }
 
             img {
                 margin-bottom: 32px;
@@ -551,6 +668,10 @@ export const StyledFooter = styled.div`
                 padding-top: 0;
             }
 
+            @media screen and (max-width: 520px) {
+                padding-bottom: 25px;
+            }
+
             p {
                 gap: 16px;
                 display: flex;
@@ -572,6 +693,9 @@ export const StyledFooter = styled.div`
                 font-weight: 500;
                 font-style: normal;
                 font-family: Inter;
+                @media screen and (max-width: 520px) {
+                    order: 3;
+                }
             }
 
             &_socialIcons {

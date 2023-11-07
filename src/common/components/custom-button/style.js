@@ -17,7 +17,7 @@ export const StyledCustomButton = styled.button`
   background-color: ${(props) => (props.bg ? props.bg : 'red')};
   border-radius: ${(props) => (props.radius ? props.radius : '4px')};        
 
-  @media screen and (max-width : 768px) {
+  /* @media screen and (max-width : 768px) {
     font-size: 16px;
     padding: 10px 20px;
   }
@@ -25,5 +25,5 @@ export const StyledCustomButton = styled.button`
   @media screen and (max-width : 480px) {
     font-size: 14px;
     padding: 5px 10px;
-  }
+  } */
 `

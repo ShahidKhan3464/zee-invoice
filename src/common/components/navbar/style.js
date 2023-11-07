@@ -18,6 +18,21 @@ export const StyledNavbar = styled.div`
             gap: 15px;
             display: flex;
             align-items: center;
+
+            &_invoice {
+                @media screen and (max-width: 520px) {
+                    display: none;
+                }
+            }
+
+            &_login {
+                @media screen and (max-width : 520px) {
+                    button {
+                        font-size: 16px;
+                        padding: 9px 15px;
+                    }
+                } 
+            }
         }
     }
 `

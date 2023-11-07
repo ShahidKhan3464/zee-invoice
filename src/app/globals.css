@@ -13,6 +13,55 @@ body {
   overflow-x: hidden;
 }
 
+/* SweetAlert */
+.swal2-popup {
+  padding: 0 !important;
+  width: 26.5em !important;
+}
+
+.sweetAlert-title {
+  line-height: 34px;
+  font-style: normal;
+  font-family: 'Inter';
+  letter-spacing: 0.0038em;
+  font-size: 28px !important;
+  font-weight: 500 !important;
+  padding-top: 16px !important;
+}
+
+.sweetAlert-message {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 132%;
+  font-style: normal;
+  padding-bottom: 15px;
+  font-family: 'Inter';
+}
+
+.swal2-confirm.swal2-styled {
+  display: none !important;
+}
+
+.swal2-success-circular-line-left, .swal2-success-fix, .swal2-success-circular-line-right {
+  background: transparent;
+}
+
+.sweetAlert-close-btn {
+  top: 16px;
+  right: 22px;
+  position: absolute;
+}
+
+.sweetAlert-close-btn button {
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+}
+
 /* Ant Modal */
 .ant-modal-content {
   padding: 0px !important;

@@ -15,7 +15,7 @@ import PDFDocument from '@/common/components/pdf-template';
 import CustomButton from "@/common/components/custom-button";
 import InvoiceNavbar from "@/common/components/valid-user-navbar";
 import { StyledCreateInvoice, StyledInvoiceBuilderForm, StyledInvoiceBuilderHeader } from "./style";
-import { setInvoiceNo, setPaletteColors } from '@/provider/features/create-invoice/create-invoice.slice';
+import { setInvoiceNo, setPaletteColors } from '@/state/features/create-invoice/create-invoice.slice';
 import SaveInfo from "./save-info";
 
 const CreateInvoice = () => {

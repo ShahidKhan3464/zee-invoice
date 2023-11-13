@@ -5,7 +5,7 @@ import { Icons } from "@/common/assets";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Input, InputNumber } from "antd";
-import { setAddItem, setEditableField, setUpdateItem } from "@/provider/features/create-invoice/create-invoice.slice";
+import { setAddItem, setEditableField, setUpdateItem } from "@/state/features/create-invoice/create-invoice.slice";
 const { TextArea } = Input;
 
 const InvoiceListItemAddition = () => {

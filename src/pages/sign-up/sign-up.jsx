@@ -9,12 +9,13 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Checkbox from '@mui/material/Checkbox';
 import Footer from "@/common/components/footer";
+import { useGoogleLogin } from '@react-oauth/google';
 import FormControl from "@/common/utils/form-control";
 import { useDispatch, useSelector } from "react-redux";
 import { PrimaryButton, StyledBox } from '@/common/styles';
-import { signup } from "@/provider/features/auth/auth.slice";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/material/CircularProgress';
+import { signup, signupWithOAuthGoogle } from "@/state/features/auth/auth.slice";
 
 const SignUp = () => {
     const route = useRouter()
@@ -28,6 +29,10 @@ const SignUp = () => {
         password: "",
         confirm_password: ""
     }
+
+    const loginWithGoogle = useGoogleLogin({
+        onSuccess: tokenResponse => dispatch(signupWithOAuthGoogle(tokenResponse.access_token))
+    })
 
     const moveRouter = (email) => {
         route.push(`/verify-email?email=${email}`)
@@ -45,7 +50,6 @@ const SignUp = () => {
                         <h2>Sign Up</h2>
                         <p>Save and manage your invoices with ZEE Invoices.</p>
                     </div>
-
                     <div className='content_form'>
                         <Formik
                             initialValues={initialValues}
@@ -155,16 +159,17 @@ const SignUp = () => {
                             }}
                         </Formik>
                     </div>
-
                     <div className="content_bottom">
                         <div className='continue-with'>
                             <div></div>
                             <div className='text'>Or continue with</div>
                             <div></div>
                         </div>
-
                         <div className="social-media_btn">
-                            <button>
+                            <button
+                                type="button"
+                                onClick={() => loginWithGoogle()}
+                            >
                                 <Image
                                     width={24}
                                     height={24}
@@ -173,26 +178,7 @@ const SignUp = () => {
                                 />
                                 <span>Google</span>
                             </button>
-                            {/* <button>
-                                <Image
-                                    width={24}
-                                    height={24}
-                                    alt='facebook'
-                                    src={Icons.facebook}
-                                />
-                                <span>Facebook</span>
-                            </button>
-                            <button>
-                                <Image
-                                    width={24}
-                                    height={24}
-                                    alt='apple'
-                                    src={Icons.apple}
-                                />
-                                <span>Apple</span>
-                            </button> */}
                         </div>
-
                         <div className='sign-up'>
                             <span>Already have an account?</span>
                             <Link href="/login" replace={false}>Login</Link>

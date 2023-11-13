@@ -1,5 +1,3 @@
-"use client";
-
 export const getAccessToken = () => {
   if (typeof window === "object") {
     const user = window.localStorage?.getItem("user");

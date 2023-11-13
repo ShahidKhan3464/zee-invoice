@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 // import { getAccessToken } from "@/common/utils/users.util";
 

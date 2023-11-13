@@ -26,10 +26,19 @@ const loginWithOAuthGoogle = async (access_token) => {
     return response;
 };
 
+const signupWithOAuthGoogle = async (access_token) => {
+    const response = await api.post("/oauth/google/callback", { access_token });
+    if (response.data.status) {
+        return response.data.data
+    }
+    return response;
+};
+
 const authService = {
     login,
     signup,
-    loginWithOAuthGoogle
+    loginWithOAuthGoogle,
+    signupWithOAuthGoogle
 };
 
 export default authService;

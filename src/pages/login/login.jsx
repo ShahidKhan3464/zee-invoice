@@ -12,7 +12,7 @@ import FormControl from "@/common/utils/form-control";
 import { useDispatch, useSelector } from "react-redux";
 import { PrimaryButton, StyledBox } from '@/common/styles';
 import CircularProgress from '@mui/material/CircularProgress';
-import { login, loginWithOAuthGoogle } from "@/provider/features/auth/auth.slice";
+import { login, loginWithOAuthGoogle } from "@/state/features/auth/auth.slice";
 
 const Login = () => {
     const dispatch = useDispatch()

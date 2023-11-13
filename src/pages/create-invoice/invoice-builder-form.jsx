@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Modal, Input, InputNumber, DatePicker } from "antd";
 import InvoiceListItemAddition from './invoice-listItem-addition';
 import InvoiceModalBody from '@/common/components/invoice-modal-body';
-import { setDate, setDueDate, setLogo, setType, setRemoveItem, setAdditionalNote, setEditableField } from '@/provider/features/create-invoice/create-invoice.slice';
+import { setDate, setDueDate, setLogo, setType, setRemoveItem, setAdditionalNote, setEditableField } from '@/state/features/create-invoice/create-invoice.slice';
 const { TextArea } = Input;
 
 const InvoiceBuilderForm = () => {

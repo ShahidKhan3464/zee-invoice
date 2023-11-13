@@ -9,7 +9,7 @@ import { StyledInvoiceModalBody } from './style';
 import FormControl from '@/common/utils/form-control';
 import Colors from '@/common/constants/color.constant';
 import CustomButton from '@/common/components/custom-button';
-import { setReceiverDetail, setSenderDetail } from '@/provider/features/create-invoice/create-invoice.slice';
+import { setReceiverDetail, setSenderDetail } from '@/state/features/create-invoice/create-invoice.slice';
 
 const initialValues = {
     name: "",

@@ -22,6 +22,12 @@ const initialState = {
         message: "",
         isError: false,
         isLoading: false,
+    },
+    signupWithOAuthGoogle: {
+        data: {},
+        message: "",
+        isError: false,
+        isLoading: false,
     }
 };
 
@@ -106,6 +112,30 @@ export const loginWithOAuthGoogle = createAsyncThunk(
     }
 );
 
+export const signupWithOAuthGoogle = createAsyncThunk(
+    "auth/signupWithOAuthGoogle",
+    async (access_token, thunkAPI) => {
+        try {
+            const response = await authService.signupWithOAuthGoogle(access_token);
+            if (response) {
+                SweetAlert('success', 'Success', 'Successfully logged in')
+                return response;
+            }
+            return thunkAPI.rejectWithValue(response);
+        }
+        catch (err) {
+            if (err.response) {
+                SweetAlert('warning', 'Warning!', err.response.data.message)
+                return thunkAPI.rejectWithValue(err.response.data.message);
+            }
+            else {
+                SweetAlert('error', 'Error!', 'Something went wrong. Please try again')
+                return thunkAPI.rejectWithValue(err.message);
+            }
+        }
+    }
+);
+
 export const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -124,6 +154,12 @@ export const authSlice = createSlice({
                 isLoading: false,
             };
             state.loginWithOAuthGoogle = {
+                data: {},
+                message: "",
+                isError: false,
+                isLoading: false,
+            };
+            state.signupWithOAuthGoogle = {
                 data: {},
                 message: "",
                 isError: false,
@@ -181,6 +217,22 @@ export const authSlice = createSlice({
                 state.loginWithOAuthGoogle.isError = true;
                 state.loginWithOAuthGoogle.isLoading = false;
                 state.loginWithOAuthGoogle.message = action.payload;
+            })
+            .addCase(signupWithOAuthGoogle.pending, (state) => {
+                state.signupWithOAuthGoogle.data = {};
+                state.signupWithOAuthGoogle.message = "";
+                state.signupWithOAuthGoogle.isError = false;
+                state.signupWithOAuthGoogle.isLoading = true;
+            })
+            .addCase(signupWithOAuthGoogle.fulfilled, (state, action) => {
+                state.signupWithOAuthGoogle.isLoading = false;
+                state.signupWithOAuthGoogle.data = action.payload;
+            })
+            .addCase(signupWithOAuthGoogle.rejected, (state, action) => {
+                state.signupWithOAuthGoogle.data = {};
+                state.signupWithOAuthGoogle.isError = true;
+                state.signupWithOAuthGoogle.isLoading = false;
+                state.signupWithOAuthGoogle.message = action.payload;
             })
     },
 });

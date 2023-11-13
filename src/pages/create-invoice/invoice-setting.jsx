@@ -6,7 +6,7 @@ import { Icons } from '@/common/assets';
 import { Select, Switch, ColorPicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyledInvoiceSetting, StyledColorCheckbox } from './style';
-import { setCurrency, setDefaultColor, setInvoiceDueDate, setInvoiceTax } from '@/provider/features/create-invoice/create-invoice.slice';
+import { setCurrency, setDefaultColor, setInvoiceDueDate, setInvoiceTax } from '@/state/features/create-invoice/create-invoice.slice';
 
 const InvoiceSetting = () => {
     const dispatch = useDispatch()

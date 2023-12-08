@@ -1,7 +1,9 @@
 "use client";
 
 import React from 'react';
+import { Images } from '@/common/assets';
 import { Document, Page, StyleSheet, View, Text, Image, Font } from '@react-pdf/renderer';
+const waterMarkLogo = Images.waterMarkLogo.default.src
 
 Font.register({
   family: 'Inter',
@@ -14,10 +16,8 @@ Font.register({
   ]
 })
 
-const PdfTemplate = ({ invoiceData, defaultColor }) => {
+const PdfTemplate = ({ isToken, invoiceData, defaultColor, isInvoiceTax }) => {
   const { no, logo, type, senderDetail, receiverDetail, date, dueDate, items, additionalNote, currency } = invoiceData
-
-  // const isPdfRendered = logo && type && senderDetail && receiverDetail && dueDate && items
 
   const styles = StyleSheet.create({
     page: {
@@ -27,9 +27,22 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
       borderTop: `3px solid ${defaultColor}`
     },
 
+    waterMark: {
+      top: '50%',
+      left: '50%',
+      width: '200px',
+      height: '75px',
+      position: 'absolute',
+      transform: 'translate(-50%, -50%)',
+
+      logo: {
+        width: '100%',
+        objectFit: 'contain'
+      }
+    },
+
     header: {
       display: 'flex',
-      alignItems: 'center',
       flexDirection: 'row',
       backgroundColor: '#FFFFFF',
       justifyContent: 'space-between',
@@ -39,8 +52,6 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
         height: '60px',
 
         image: {
-          // width: '100%',
-          // height: '100%',
           objectFit: 'cover',
         },
       },
@@ -160,15 +171,15 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
 
           tr: {
             display: 'flex',
-            padding: '8px 0',
+            padding: '4px 0 0',
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderBottom: '1px solid #E0E0E0',
 
             td: {
               fontSize: '9px',
               color: '#202020',
+              textAlign: 'center',
               fontFamily: 'Inter',
               fontStyle: 'normal',
               fontWeight: 'Medium',
@@ -179,16 +190,16 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
             color: '#202020',
             fontFamily: 'Inter',
             fontStyle: 'normal',
-            marginBottom: '4px',
             fontWeight: 'Medium',
 
             desc: {
-              width: '100%',
               fontSize: '8px',
+              padding: '4px 0',
               color: '#4F4F4F',
               fontFamily: 'Inter',
               fontStyle: 'normal',
               fontWeight: 'Normal',
+              borderBottom: '1px solid #E0E0E0',
             }
           }
         },
@@ -196,7 +207,7 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
         note: {
           fontSize: '7px',
           color: '#202020',
-          marginTop: '10px',
+          marginTop: '8px',
           fontFamily: 'Inter',
           fontStyle: 'normal',
           fontWeight: 'Normal',
@@ -264,11 +275,21 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
   return (
     <Document>
       <Page style={styles.page}>
+        <View style={styles.waterMark}>
+          <Image
+            alt='water-mark'
+            source={waterMarkLogo}
+            style={styles.waterMark.logo}
+          />
+        </View>
+
         <View style={styles.header}>
-          <View style={styles.header.logoBox}>
-            <Image style={styles.header.logoBox.image} source={logo} alt='logo' />
-          </View>
-          <View>
+          {logo && (
+            <View style={styles.header.logoBox}>
+              <Image style={styles.header.logoBox.image} source={logo} alt='logo' />
+            </View>
+          )}
+          <View style={{ marginLeft: 'auto' }}>
             <Text style={styles.header.key}>Invoice No:
               <Text style={styles.header.value}>     {no}</Text>
             </Text>
@@ -318,16 +339,21 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
 
           <View style={styles.section.tables}>
             <View style={styles.section.tables.thead}>
-              <View style={{ width: '45%' }}>
+              <View style={{ width: '35%' }}>
                 <Text>Items</Text>
               </View>
-              <View style={{ width: '18%' }} >
+              <View>
                 <Text>QTY/HRS</Text>
               </View>
-              <View style={{ width: '12%' }}>
+              <View>
                 <Text>Rate</Text>
               </View>
-              <View style={{ width: '12%' }}>
+              {isInvoiceTax && (
+                <View>
+                  <Text>Tax</Text>
+                </View>
+              )}
+              <View>
                 <Text>Subtotal</Text>
               </View>
             </View>
@@ -335,21 +361,28 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
             <View style={styles.section.tables.tbody}>
               {items?.map((elem, index) => {
                 return (
-                  <View key={index} style={styles.section.tables.tbody.tr}>
-                    <View style={{ width: '45%' }}>
-                      <Text style={styles.section.tables.tbody.item}>{elem.item}</Text>
-                      <Text style={styles.section.tables.tbody.item.desc}>{elem.description} </Text>
+                  <>
+                    <View key={index} style={styles.section.tables.tbody.tr}>
+                      <View style={{ width: '35%' }}>
+                        <Text style={styles.section.tables.tbody.item}>{elem.item}</Text>
+                      </View>
+                      <View style={styles.section.tables.tbody.tr.td}>
+                        <Text>{elem.qty}</Text>
+                      </View>
+                      <View style={styles.section.tables.tbody.tr.td}>
+                        <Text>{elem.rate}</Text>
+                      </View>
+                      {isInvoiceTax && (
+                        <View style={styles.section.tables.tbody.tr.td}>
+                          <Text>{elem.tax}</Text>
+                        </View>
+                      )}
+                      <View style={styles.section.tables.tbody.tr.td}>
+                        <Text>$0.00</Text>
+                      </View>
                     </View>
-                    <View style={styles.section.tables.tbody.tr.td}>
-                      <Text>{elem.qty}</Text>
-                    </View>
-                    <View style={styles.section.tables.tbody.tr.td}>
-                      <Text>{elem.rate}</Text>
-                    </View>
-                    <View style={styles.section.tables.tbody.tr.td}>
-                      <Text>$0.00</Text>
-                    </View>
-                  </View>
+                    <Text style={styles.section.tables.tbody.item.desc}>{elem.description} </Text>
+                  </>
                 )
               })}
               <Text style={styles.section.tables.note}>Note: {additionalNote}</Text>
@@ -357,7 +390,7 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
           </View>
         </View>
 
-        <View break={items.length === 5 ? true : false} style={styles.footer}>
+        <View break={items.length > 5 ? true : false} style={styles.footer}>
           <View style={styles.footer.summary}>
             <View style={styles.footer.summary.heading}>
               <Text style={styles.footer.summary.heading.text}>Invoice Summary</Text>
@@ -391,4 +424,4 @@ const PdfTemplate = ({ invoiceData, defaultColor }) => {
   )
 }
 
-export default React.memo(PdfTemplate)
+export default PdfTemplate

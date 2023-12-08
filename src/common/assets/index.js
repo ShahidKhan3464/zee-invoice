@@ -68,5 +68,6 @@ export const Images = {
     freeGenerate: require('./images/free-generate.png'),
     invoiceMockUp: require('./images/invoice-mockup.png'),
     heroSectionBg: require('./images/hero-sectionBg.png'),
+    waterMarkLogo: require('./images/water-mark-logo.png'),
     softwareInvoiceBg: require('./images/software-invoiceBg.png'),
 }

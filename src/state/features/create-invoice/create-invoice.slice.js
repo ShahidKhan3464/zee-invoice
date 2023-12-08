@@ -54,7 +54,6 @@ export const createInvoiceSlice = createSlice({
             state.invoiceData.type = action.payload;
         },
         setSenderDetail: (state, action) => {
-            console.log(action.payload)
             state.invoiceData.senderDetail = action.payload;
         },
         setReceiverDetail: (state, action) => {
